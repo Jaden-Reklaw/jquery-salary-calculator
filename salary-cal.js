@@ -28,23 +28,26 @@ function readyNow() {
 
 function addEmployee() {
 	console.log('in addEmployee');
+	
 	//Grab inputs from input fields and assign to global variables
 	let employee = assignValues();
-	console.log('first name is: ',firstName);
-	console.log('last name is: ',lastName);
-	console.log('id is: ',id);
-	console.log('title is: ',title);
-	console.log('annual salary is: ',annualSalary);
-	console.log('Employee is', employee);
+
+	//Reset Values
+	removeValues();
 
 }
 
+/*
+* assigns values to global variables and returns and object for an employee
+* @param {no-params}
+* @returns {object}
+*/
 function assignValues() {
 	firstName = $(`#f-name`).val();
-	lastName = $(`#l-name`).val()
-	id = $(`#employee-id`).val()
-	title = $(`#title`).val()
-	annualSalary = $(`#a-salary`).val()
+	lastName = $(`#l-name`).val();
+	id = $(`#employee-id`).val();
+	title = $(`#title`).val();
+	annualSalary = $(`#a-salary`).val();
 
 	return {
 		firstName: firstName, 
@@ -53,6 +56,19 @@ function assignValues() {
 		title: title, 
 		annualSalary: annualSalary
 	};
+}
+
+/*
+* function that reset the values of the variables on the DOM
+* @params {none}
+* @returns {nothing}
+*/
+function removeValues() {
+	$(`#f-name`).val('');
+	$(`#l-name`).val('');
+	$(`#employee-id`).val('');
+	$(`#title`).val('');
+	$(`#a-salary`).val('');
 }
 
 
