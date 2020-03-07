@@ -39,6 +39,9 @@ function addEmployee() {
 	//Append value to DOM table and use employee-id as the ID for tr elements
 	appendTableDOM();
 
+	//Calculate Total Monthly and Add to DOM
+	calculateTotalMonthly();
+
 	//Reset Values
 	removeValues();
 
@@ -82,19 +85,41 @@ function removeValues() {
 
 function appendTableDOM() {
 	$(`#employees-table`).append(`
-		<tr id="${id}">
+		<tr class="${id}">
 			<td>${firstName}</td>
 			<td>${lastName}</td>
 			<td>${id}</td>
 			<td>${title}</td>
 			<td>${formatter.format(annualSalary)}</td>
-			<td><button class="delete">Delete</button></td>
+			<td><button class="delete" id=${id}>Delete</button></td>
 		</tr>`);
 }
 
-function removeItemFromTable() {
-	console.log('removeItemFromTable');
-	consol.log(event);
+function removeItemFromTable(event) {
+	//Select item by id you want to delete
+	let classId = $(`.${event.target.id}`);
+	
+	//Remove employee from table
+	classId.remove();
+
+	//recalculate the Total Monthly
+	calculateTotalMonthly();
+}
+
+function calculateTotalMonthly() {
+	let total = 0;
+	for(let i = 0; i < employees.length; i++) {
+		console.log('employee salary is:', employees[i].annualSalary);
+		total += Number(employees[i].annualSalary);
+	}
+	total = total/12;
+	console.log('total is', total);
+
+	//Empty DOM
+	$(`span`).empty();
+
+	//Append to DOM
+	$(`span`).append(total);
 }
 
 
