@@ -1,6 +1,3 @@
-//Test connection 
-console.log('salary-cal.js');
-
 //Global Variables
 const employees = []; //Takes in employee as object
 let firstName = '';
@@ -16,8 +13,6 @@ const formatter = new Intl.NumberFormat('en-US', {
   minimumFractionDigits: 2
 })
 
-formatter.format(1000) // "$1,000.00"
-
 //Ready the DOM
 $(document).ready(readyNow);
 
@@ -28,23 +23,26 @@ function readyNow() {
 }
 
 function addEmployee() {
-	console.log('in addEmployee');
-	
 	//Grab inputs from input fields and assign to global variables
 	let employee = assignValues();
 
-	//Add object to array
-	employees.push(employee);
+	//What to do if inputs are filled
+	if(inputValidator()) {
+		//Add object to array
+		employees.push(employee);
 
-	//Append value to DOM table and use employee-id as the ID for tr elements
-	appendTableDOM();
+		//Append value to DOM table and use employee-id as the ID for tr elements
+		appendTableDOM();
 
-	//Calculate Total Monthly and Add to DOM
-	calculateTotalMonthly();
+		//Calculate Total Monthly and Add to DOM
+		calculateTotalMonthly();
 
-	//Reset Values
-	removeValues();
-
+		//Reset Values
+		removeValues();
+	} else {
+		//What to do if they are not filled
+		removeValues();
+	}
 }
 
 /*
@@ -102,6 +100,9 @@ function removeItemFromTable(event) {
 	//Remove employee from table
 	classId.remove();
 
+	//Remove employee from employees array
+	removeEmployee(event.target.id);
+
 	//recalculate the Total Monthly
 	calculateTotalMonthly();
 }
@@ -109,11 +110,9 @@ function removeItemFromTable(event) {
 function calculateTotalMonthly() {
 	let total = 0;
 	for(let i = 0; i < employees.length; i++) {
-		console.log('employee salary is:', employees[i].annualSalary);
 		total += Number(employees[i].annualSalary);
 	}
-	total = total/12;
-	console.log('total is', total);
+	total = formatter.format(total/12);
 
 	//Empty DOM
 	$(`span`).empty();
@@ -121,6 +120,35 @@ function calculateTotalMonthly() {
 	//Append to DOM
 	$(`span`).append(total);
 }
+
+function removeEmployee(person) {
+	for (var i = 0; i < employees.length; i++) {
+		if(employees[i].id = person) {
+			employees.splice(i, 1);
+			return true;
+		}
+	}
+	return false;
+}
+
+function inputValidator() {
+	//Check if input are empty
+	if(firstName === '' || lastName === '' || id === '' || title === '' || annualSalary === '') {
+		alert('You must fill in first name, last name, id, title, and annual salary');
+		return false;
+	}
+
+	//Check id against employees array on object property id
+	for (var i = 0; i < employees.length; i++) {
+		if(employees[i].id === id){
+			alert('ID matches someone that already exists in the employees array database');
+			return false;
+		}
+	}
+	return true;
+}
+
+
 
 
 
