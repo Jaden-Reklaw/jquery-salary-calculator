@@ -112,18 +112,39 @@ function calculateTotalMonthly() {
 	for(let i = 0; i < employees.length; i++) {
 		total += Number(employees[i].annualSalary);
 	}
-	total = formatter.format(total/12);
 
-	//Empty DOM
-	$(`span`).empty();
+	if(total/12 >= 20000) {
+		total = formatter.format(total/12);
 
-	//Append to DOM
-	$(`span`).append(total);
+		//Empty DOM
+		$(`span`).empty();
+
+		//Append to DOM
+		$(`span`).append(total);
+
+		//Add class to span
+		$(`span`).addClass('alert');
+
+	} else {
+	//if it is below $20,000
+		total = formatter.format(total/12);
+
+		//Empty DOM
+		$(`span`).empty();
+
+		//Append to DOM
+		$(`span`).append(total);
+
+		//Incase alert class has been add remove it if total monthly cost is less then $20,000
+		if($("span").attr("class") === 'alert') {
+			$(`span`).removeClass('alert');
+		}
+	}	
 }
 
 function removeEmployee(person) {
-	for (var i = 0; i < employees.length; i++) {
-		if(employees[i].id = person) {
+	for (let i = 0; i < employees.length; i++) {
+		if(employees[i].id === person) {
 			employees.splice(i, 1);
 			return true;
 		}

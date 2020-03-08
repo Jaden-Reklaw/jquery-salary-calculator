@@ -98,3 +98,14 @@ h2.push {
 	margin: 0px auto;
 	padding: 10px 10px 10px 0px;
 }
+
+/*Animation to change background color if monthly cost exceeds $20,000*/
+.alert {
+  background-color: red;
+  animation: animation 2s infinite;
+}
+
+@keyframes animation {
+  from {background-color: red;}
+  to {background-color: white;}
+}
