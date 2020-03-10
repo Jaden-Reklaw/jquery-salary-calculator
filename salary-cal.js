@@ -16,7 +16,7 @@ const formatter = new Intl.NumberFormat('en-US', {
 //Ready the DOM
 $(document).ready(readyNow);
 
-//Things to run or click after teh document is ready
+//Things to run or click after the document is ready
 function readyNow() {
 	$('#submit').on('click',addEmployee);
 	$(`table`).on(`click`, '.delete',removeItemFromTable);
@@ -107,34 +107,26 @@ function removeItemFromTable(event) {
 	calculateTotalMonthly();
 }
 
+
 function calculateTotalMonthly() {
 	let total = 0;
 	for(let i = 0; i < employees.length; i++) {
 		total += Number(employees[i].annualSalary);
 	}
 
-	if(total/12 >= 20000) {
-		total = formatter.format(total/12);
+	total = total/12;
 
-		//Empty DOM
-		$(`span`).empty();
+	//Empty DOM
+	$(`span`).empty();
 
-		//Append to DOM
-		$(`span`).append(total);
+	//Append to DOM
+	$(`span`).append(formatter.format(total/12));
 
+	if(total >= 20000) {
 		//Add class to span
 		$(`span`).addClass('alert');
 
 	} else {
-	//if it is below $20,000
-		total = formatter.format(total/12);
-
-		//Empty DOM
-		$(`span`).empty();
-
-		//Append to DOM
-		$(`span`).append(total);
-
 		//Incase alert class has been add remove it if total monthly cost is less then $20,000
 		if($("span").attr("class") === 'alert') {
 			$(`span`).removeClass('alert');
@@ -151,7 +143,12 @@ function removeEmployee(person) {
 	}
 	return false;
 }
-
+/*
+* function to check on inputs from user
+* @params {none}
+* @returns {boolean} true if fields are filled and no match on ID
+* @returns {boolean} false if fields are not filled or ID matches one from employees array
+*/
 function inputValidator() {
 	//Check if input are empty
 	if(firstName === '' || lastName === '' || id === '' || title === '' || annualSalary === '') {
